@@ -4,7 +4,7 @@ import axios from "axios";
 const adminClient = axios.create({
   baseURL:
     import.meta.env.VITE_ADMIN_API_BASE_URL ||
-    "http://localhost:3000/api/admin" || "https://mozno-wealth-server-main.onrender.com",
+     "https://mozno-wealth-server-main.onrender.com/admin",
   headers: {
     "Content-Type": "application/json",
   },
