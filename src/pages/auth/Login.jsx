@@ -59,15 +59,22 @@ const Login = () => {
   // Login Mutation
   const loginMutation = useAdminLogin({
     onSuccess: (data) => {
-      // Store token using auth context
-      login(data.token, rememberMe);
-      
+      if (data?.requiresOtp === false) {
+        login(data.token, rememberMe);
+        setSuccess('Login successful! Redirecting...');
+        setIsLoading(false);
+        setTimeout(() => {
+          navigate(from, { replace: true });
+        }, 700);
+        return;
+      }
+
       setSuccess('Credentials verified. Sending verification code...');
       setIsLoading(false);
-      
-      // Send OTP immediately
+
+      // Send OTP immediately for accounts that require 2FA
       sendOtpMutation.mutate({ email });
-      
+
       // Move to 2FA step after a short delay
       setTimeout(() => {
         setStep('2fa');
